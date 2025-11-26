@@ -1,0 +1,6 @@
+ALTER TABLE conceptos_pago
+ADD COLUMN monto_default DECIMAL(10,2) DEFAULT 0.00,
+ADD COLUMN dias_tolerancia INT DEFAULT 0,
+ADD COLUMN aplica_beca BOOLEAN DEFAULT FALSE,
+ADD COLUMN recargo_fijo DECIMAL(10,2) DEFAULT 0.00,
+ADD COLUMN recargo_porcentaje DECIMAL(5,2) DEFAULT 0.00;
