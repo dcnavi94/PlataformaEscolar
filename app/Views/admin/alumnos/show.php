@@ -108,8 +108,11 @@ $meses = [
             <!-- Pagos Tab -->
             <div class="tab-pane fade show active" id="pagos" role="tabpanel">
                 <div class="card">
-                    <div class="card-header bg-secondary text-white">
+                    <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
                         <h5 class="mb-0"><i class="bi bi-list-ul"></i> Estado de Cuenta</h5>
+                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#pagoManualModal">
+                            <i class="bi bi-plus-circle"></i> Registrar Pago Manual
+                        </button>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -286,6 +289,88 @@ $meses = [
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Pago Manual -->
+<div class="modal fade" id="pagoManualModal" tabindex="-1" aria-labelledby="pagoManualModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="<?= BASE_URL ?>/pago/registrarManual" method="POST">
+                <div class="modal-header bg-warning text-white">
+                    <h5 class="modal-title" id="pagoManualModalLabel">
+                        <i class="bi bi-cash-coin"></i> Registrar Pago Manual
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id_alumno" value="<?= $alumno['id_alumno'] ?>">
+                    
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i> 
+                        <strong>Alumno:</strong> <?= htmlspecialchars($alumno['nombre'] . ' ' . $alumno['apellidos']) ?>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_concepto" class="form-label">Concepto de Pago *</label>
+                        <select class="form-select" id="id_concepto" name="id_concepto" required>
+                            <option value="">Seleccione un concepto...</option>
+                            <?php foreach ($conceptos as $concepto): ?>
+                                <option value="<?= $concepto['id_concepto'] ?>">
+                                    <?= htmlspecialchars($concepto['nombre']) ?>
+                                    <?php if ($concepto['monto_default'] > 0): ?>
+                                        - $<?= number_format($concepto['monto_default'], 2) ?>
+                                    <?php endif; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <small class="text-muted">Seleccione el tipo de pago que está registrando</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="monto_pago" class="form-label">Monto *</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="monto_pago" name="monto" 
+                                   step="0.01" min="0.01" placeholder="0.00" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="metodo_pago" class="form-label">Método de Pago *</label>
+                        <select class="form-select" id="metodo_pago" name="metodo_pago" required>
+                            <option value="">Seleccione método...</option>
+                            <option value="EFECTIVO">Efectivo</option>
+                            <option value="TARJETA">Tarjeta</option>
+                            <option value="TRANSFER">Transferencia</option>
+                            <option value="CHEQUE">Cheque</option>
+                            <option value="DEPOSITO">Depósito</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="referencia_pago" class="form-label">Referencia / Folio</label>
+                        <input type="text" class="form-control" id="referencia_pago" name="referencia_pago" 
+                               placeholder="Número de referencia, folio o comprobante">
+                        <small class="text-muted">Opcional: Número de transacción, folio de recibo, etc.</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="notas_pago" class="form-label">Notas / Observaciones</label>
+                        <textarea class="form-control" id="notas_pago" name="notas" rows="2" 
+                                  placeholder="Información adicional sobre el pago"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check-circle"></i> Registrar Pago
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

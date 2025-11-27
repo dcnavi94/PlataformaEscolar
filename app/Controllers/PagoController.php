@@ -20,6 +20,10 @@ class PagoController extends Controller {
         $this->bitacora = $this->model('Bitacora');
     }
 
+    public function index() {
+        $this->redirect('/pago/historial');
+    }
+
     /**
      * Show payment form for a specific cargo
      */
@@ -316,5 +320,127 @@ class PagoController extends Controller {
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);
         }
         exit;
+    }
+
+    public function registrarManual() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $_SESSION['error'] = 'Método no permitido';
+            $this->redirect('/alumnoadmin/index');
+            return;
+        }
+
+        try {
+            $idAlumno = $_POST['id_alumno'] ?? null;
+            $idConcepto = $_POST['id_concepto'] ?? null;
+            $monto = $_POST['monto'] ?? 0;
+            $metodoPago = $_POST['metodo_pago'] ?? 'EFECTIVO';
+            $referencia = $_POST['referencia_pago'] ?? '';
+            $notas = $_POST['notas'] ?? '';
+
+            if (!$idAlumno || !$idConcepto || $monto <= 0) {
+                $_SESSION['error'] = 'Datos incompletos para registrar el pago';
+                $this->redirect('/alumnoadmin/show/' . $idAlumno);
+                return;
+            }
+
+            $alumno = $this->alumnoModel->find($idAlumno);
+            if (!$alumno) {
+                $_SESSION['error'] = 'Alumno no encontrado';
+                $this->redirect('/alumnoadmin/index');
+                return;
+            }
+
+            // Get id_grupo explicitly if not present
+            $idGrupo = $alumno['id_grupo'] ?? null;
+            if (!$idGrupo) {
+                $sql = "SELECT id_grupo FROM alumnos WHERE id_alumno = ?";
+                $stmt = $this->alumnoModel->query($sql, [$idAlumno]);
+                $result = $stmt->fetch();
+                $idGrupo = $result['id_grupo'] ?? null;
+            }
+
+            if (!$idGrupo) {
+                $_SESSION['error'] = 'El alumno no tiene un grupo asignado';
+                $this->redirect('/alumnoadmin/show/' . $idAlumno);
+                return;
+            }
+
+            // Get periodo - either from alumno or get current active periodo
+            $idPeriodo = $alumno['id_periodo'] ?? null;
+            
+            if (!$idPeriodo) {
+                // Get most recent period
+                $sql = "SELECT id_periodo FROM periodos ORDER BY fecha_inicio DESC LIMIT 1";
+                $stmt = $this->cargoModel->query($sql);
+                $periodo = $stmt->fetch();
+                $idPeriodo = $periodo['id_periodo'] ?? null;
+            }
+
+            if (!$idPeriodo) {
+                $_SESSION['error'] = 'No hay períodos registrados en el sistema';
+                $this->redirect('/alumnoadmin/show/' . $idAlumno);
+                return;
+            }
+
+            // Create cargo
+            $cargoData = [
+                'id_alumno' => $idAlumno,
+                'id_grupo' => $idGrupo,
+                'id_concepto' => $idConcepto,
+                'id_periodo' => $idPeriodo,
+                'monto' => $monto,
+                'saldo_pendiente' => 0,
+                'fecha_limite' => date('Y-m-d'),
+                'mes' => date('n'),
+                'anio' => date('Y'),
+                'estatus' => 'PAGADO'
+            ];
+
+            $idCargo = $this->cargoModel->insert($cargoData);
+
+            if (!$idCargo) {
+                throw new Exception('Error al crear el cargo');
+            }
+
+            // Create payment (simplified - only essential fields)
+            $pagoData = [
+                'id_alumno' => $idAlumno,
+                'monto_total' => $monto,
+                'metodo_pago' => $metodoPago,
+                'fecha_pago' => date('Y-m-d H:i:s'),
+                'estado' => 'COMPLETADO'
+            ];
+
+            // Add optional fields if they exist in the table
+            if (!empty($notas)) {
+                $pagoData['notas'] = $notas;
+            }
+
+            $idPago = $this->pagoModel->insert($pagoData);
+
+            if (!$idPago) {
+                throw new Exception('Error al registrar el pago');
+            }
+
+            // Create pago_detalle to link payment with cargo
+            $sql = "INSERT INTO pago_detalle (id_pago, id_cargo, monto_aplicado) VALUES (?, ?, ?)";
+            $this->pagoModel->query($sql, [$idPago, $idCargo, $monto]);
+
+            // Register in bitacora
+            $this->bitacora->log(
+                $_SESSION['user_id'],
+                'pagos',
+                $idPago,
+                'INSERT',
+                "Pago manual registrado: ID {$idPago}, Monto: \${$monto}, Método: {$metodoPago}"
+            );
+
+            $_SESSION['success'] = 'Pago manual registrado exitosamente';
+            $this->redirect('/alumnoadmin/show/' . $idAlumno);
+
+        } catch (Exception $e) {
+            $_SESSION['error'] = 'Error al registrar el pago: ' . $e->getMessage();
+            $this->redirect('/alumnoadmin/show/' . ($idAlumno ?? ''));
+        }
     }
 }

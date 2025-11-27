@@ -103,6 +103,16 @@
                                     <i class="bi bi-graph-up-arrow me-2"></i> Dashboard Ejecutivo
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'concepto') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/concepto/index">
+                                    <i class="bi bi-tags me-2"></i> Conceptos de Pago
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'periodo') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/periodo/index">
+                                    <i class="bi bi-calendar-range me-2"></i> Periodos
+                                </a>
+                            </li>
                         </div>
 
                         <!-- MÓDULO ACADÉMICO -->
