@@ -214,4 +214,37 @@ class Alumno extends Model {
         
         return $this->query($sql, [$alumnoId]);
     }
+
+    /**
+     * Get count of all alumnos by status
+     */
+    public function countByStatusAll() {
+        $sql = "SELECT estatus, COUNT(*) as cantidad
+                FROM {$this->table}
+                GROUP BY estatus
+                ORDER BY cantidad DESC";
+        
+        $stmt = $this->query($sql);
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Get morosos (overdue students) grouped by program
+     */
+    public function getMorososPorPrograma() {
+        $sql = "SELECT 
+                    p.nombre as programa,
+                    COUNT(DISTINCT a.id_alumno) as total_morosos
+                FROM alumnos a
+                INNER JOIN programas p ON a.id_programa = p.id_programa
+                INNER JOIN cargos c ON a.id_alumno = c.id_alumno
+                WHERE c.estatus IN ('PENDIENTE', 'PARCIAL')
+                AND c.fecha_limite < CURDATE()
+                AND a.estatus = 'INSCRITO'
+                GROUP BY p.id_programa
+                ORDER BY total_morosos DESC";
+        
+        $stmt = $this->query($sql);
+        return $stmt->fetchAll();
+    }
 }

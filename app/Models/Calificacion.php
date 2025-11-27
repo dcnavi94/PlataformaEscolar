@@ -108,4 +108,22 @@ class Calificacion extends Model {
         $result = $stmt->fetch();
         return $result['count'] > 0;
     }
+
+    /**
+     * Get average grades by subject for a student (for chart)
+     */
+    public function getPromediosPorMateria($id_alumno) {
+        $sql = "SELECT 
+                    m.nombre as materia,
+                    AVG(c.calificacion) as promedio
+                FROM {$this->table} c
+                INNER JOIN asignaciones a ON c.id_asignacion = a.id_asignacion
+                INNER JOIN materias m ON a.id_materia = m.id_materia
+                WHERE c.id_alumno = ?
+                GROUP BY m.id_materia
+                ORDER BY m.nombre";
+        
+        $stmt = $this->query($sql, [$id_alumno]);
+        return $stmt->fetchAll();
+    }
 }

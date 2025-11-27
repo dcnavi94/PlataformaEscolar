@@ -103,4 +103,66 @@ class Pago extends Model {
         $stmt = $this->query($sql, [$alumnoId]);
         return $stmt->fetchAll();
     }
+
+    /**
+     * Get ingresos for last N months (for chart)
+     */
+    public function getIngresosPorMes($meses = 6) {
+        $sql = "SELECT 
+                    DATE_FORMAT(fecha_pago, '%Y-%m') as mes,
+                    COALESCE(SUM(monto_total), 0) as total
+                FROM {$this->table}
+                WHERE estado = 'COMPLETADO'
+                AND fecha_pago >= DATE_SUB(CURDATE(), INTERVAL ? MONTH)
+                GROUP BY DATE_FORMAT(fecha_pago, '%Y-%m')
+                ORDER BY mes ASC";
+        
+        $stmt = $this->query($sql, [$meses]);
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Get payment distribution by method
+     */
+    public function getDistribucionPorMetodo() {
+        $sql = "SELECT 
+                    metodo_pago,
+                    COUNT(*) as cantidad,
+                    COALESCE(SUM(monto_total), 0) as total
+                FROM {$this->table}
+                WHERE estado = 'COMPLETADO'
+                AND YEAR(fecha_pago) = YEAR(CURDATE())
+                GROUP BY metodo_pago
+                ORDER BY total DESC";
+        
+        $stmt = $this->query($sql);
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Get last N transactions with details
+     */
+    public function getUltimasTransacciones($limit = 10) {
+        $sql = "SELECT 
+                    p.id_pago,
+                    p.fecha_pago,
+                    p.monto_total,
+                    p.metodo_pago,
+                    p.estado,
+                    CONCAT(a.nombre, ' ', a.apellidos) as alumno_nombre,
+                    a.id_alumno,
+                    GROUP_CONCAT(cp.nombre SEPARATOR ', ') as conceptos
+                FROM {$this->table} p
+                INNER JOIN alumnos a ON p.id_alumno = a.id_alumno
+                LEFT JOIN pago_detalle pd ON p.id_pago = pd.id_pago
+                LEFT JOIN cargos c ON pd.id_cargo = c.id_cargo
+                LEFT JOIN conceptos_pago cp ON c.id_concepto = cp.id_concepto
+                WHERE p.estado = 'COMPLETADO'
+                GROUP BY p.id_pago, p.fecha_pago, p.monto_total, p.metodo_pago, p.estado, a.nombre, a.apellidos, a.id_alumno
+                ORDER BY p.fecha_pago DESC
+                LIMIT ?";
+        
+        $stmt = $this->query($sql, [$limit]);
+        return $stmt->fetchAll();
+    }
 }

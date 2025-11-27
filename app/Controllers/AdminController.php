@@ -33,8 +33,17 @@ class AdminController extends Controller {
             'ingresos_mes' => $pagoModel->getTotalIngresosMes(date('Y-m'))
         ];
 
+        // **Chart data**
+        $chartData = [
+            'ingresos_mensuales' => $pagoModel->getIngresosPorMes(6),
+            'distribucion_pagos' => $pagoModel->getDistribucionPorMetodo(),
+            'alumnos_por_estatus' => $alumnoModel->countByStatusAll(),
+            'morosos_por_programa' => $alumnoModel->getMorososPorPrograma(),
+            'ultimas_transacciones' => $pagoModel->getUltimasTransacciones(10)
+        ];
+
         $this->view('layouts/header', ['title' => 'Dashboard']);
-        $this->view('admin/dashboard', $stats);
+        $this->view('admin/dashboard', array_merge($stats, ['chartData' => $chartData]));
         $this->view('layouts/footer');
     }
 }

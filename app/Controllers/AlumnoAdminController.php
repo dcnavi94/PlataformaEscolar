@@ -163,12 +163,18 @@ class AlumnoAdminController extends Controller {
             $progreso = [];
         }
 
+        // Get conceptos de pago for manual payment form
+        $sqlConceptos = "SELECT id_concepto, nombre, monto_default FROM conceptos_pago ORDER BY nombre";
+        $stmtConceptos = $this->alumnoModel->query($sqlConceptos);
+        $conceptos = $stmtConceptos->fetchAll();
+
         $data = [
             'alumno' => $alumno,
             'cargos' => $cargos,
             'totales' => $totales,
             'calificaciones' => $calificaciones,
-            'progreso' => $progreso
+            'progreso' => $progreso,
+            'conceptos' => $conceptos
         ];
 
         $this->view('layouts/header', ['title' => 'Detalle del Alumno']);

@@ -6,10 +6,27 @@
     <title><?= $title ?? 'Portal Alumno' ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        body { background-color: #f8f9fa; }
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #212529;
+            --card-bg: #ffffff;
+            --border-color: #dee2e6;
+        }
+        body.dark-mode {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #e0e0e0;
+            --card-bg: #2d2d2d;
+            --border-color: #404040;
+        }
+        body { background-color: var(--bg-secondary); color: var(--text-primary); }
         .navbar-custom { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
         .card-stat { border-left: 4px solid #667eea; }
+        .card { background-color: var(--card-bg); color: var(--text-primary); }
+        #darkModeToggle { background: none; border: none; color: white; font-size: 1.1rem; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -67,6 +84,12 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav">
+                    <!-- Dark Mode Toggle -->
+                    <li class="nav-item">
+                        <button id="darkModeToggle" class="nav-link" aria-label="Cambiar modo oscuro">
+                            <i class="bi bi-moon-fill" id="darkModeIcon"></i>
+                        </button>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle"></i> <?= $_SESSION['nombre'] ?? 'Usuario' ?>

@@ -1,45 +1,48 @@
-<div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h3 text-gray-800">Reporte: <?= htmlspecialchars($grupo['nombre']) ?></h1>
-        <a href="<?= BASE_URL ?>/asistencia" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Volver
+<div class="container-fluid animate-fade-in">
+    <div class="page-header-modern">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">Reporte: <?= htmlspecialchars($grupo['nombre']) ?></h1>
+            <p class="text-muted mb-0">Historial de asistencia mensual</p>
+        </div>
+        <a href="<?= BASE_URL ?>/asistencia" class="btn btn-modern btn-modern-secondary">
+            <i class="bi bi-arrow-left me-2"></i>Volver
         </a>
     </div>
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Asistencia Mensual</h6>
+    <div class="card-modern">
+        <div class="card-header-modern d-flex justify-content-between align-items-center">
+            <h6 class="m-0 text-white"><i class="bi bi-calendar3 me-2"></i>Asistencia Mensual</h6>
             <form class="d-flex align-items-center" method="GET">
-                <select name="month" class="form-select form-select-sm me-2">
+                <select name="month" class="form-select form-select-sm me-2 border-0 bg-white text-dark" style="opacity: 0.9;">
                     <?php for($m=1; $m<=12; $m++): ?>
                         <option value="<?= sprintf('%02d', $m) ?>" <?= $month == sprintf('%02d', $m) ? 'selected' : '' ?>>
                             <?= date('F', mktime(0, 0, 0, $m, 1)) ?>
                         </option>
                     <?php endfor; ?>
                 </select>
-                <select name="year" class="form-select form-select-sm me-2">
+                <select name="year" class="form-select form-select-sm me-2 border-0 bg-white text-dark" style="opacity: 0.9;">
                     <?php for($y=date('Y')-1; $y<=date('Y')+1; $y++): ?>
                         <option value="<?= $y ?>" <?= $year == $y ? 'selected' : '' ?>><?= $y ?></option>
                     <?php endfor; ?>
                 </select>
-                <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+                <button type="submit" class="btn btn-light btn-sm fw-bold text-primary">Filtrar</button>
             </form>
         </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered table-sm text-center" style="font-size: 0.8rem;">
-                    <thead class="table-dark">
+        <div class="card-body p-4">
+            <div class="table-responsive table-modern-container">
+                <table class="table table-modern table-sm text-center" style="font-size: 0.85rem;">
+                    <thead>
                         <tr>
                             <th class="text-start" style="min-width: 200px;">Alumno</th>
                             <?php foreach ($dates as $date): ?>
-                                <th><?= $date ?></th>
+                                <th class="text-center"><?= $date ?></th>
                             <?php endforeach; ?>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($students as $student): ?>
                             <tr>
-                                <td class="text-start fw-bold"><?= htmlspecialchars($student['nombre']) ?></td>
+                                <td class="text-start fw-bold text-dark"><?= htmlspecialchars($student['nombre']) ?></td>
                                 <?php foreach ($dates as $date): ?>
                                     <td>
                                         <?php if (isset($student['asistencias'][$date])): 
@@ -59,11 +62,11 @@
                                                 default => 'question'
                                             };
                                         ?>
-                                            <span class="badge bg-<?= $color ?>" title="<?= $student['asistencias'][$date]['materia'] ?>">
-                                                <i class="fas fa-<?= $icon ?>"></i>
+                                            <span class="badge bg-<?= $color ?> rounded-circle p-2" title="<?= $student['asistencias'][$date]['materia'] ?>">
+                                                <i class="bi bi-<?= $icon ?>"></i>
                                             </span>
                                         <?php else: ?>
-                                            -
+                                            <span class="text-muted small">-</span>
                                         <?php endif; ?>
                                     </td>
                                 <?php endforeach; ?>
@@ -72,13 +75,11 @@
                     </tbody>
                 </table>
             </div>
-            <div class="mt-3">
-                <small class="text-muted">
-                    <span class="badge bg-success"><i class="fas fa-check"></i></span> Presente
-                    <span class="badge bg-danger"><i class="fas fa-x"></i></span> Ausente
-                    <span class="badge bg-warning"><i class="fas fa-clock"></i></span> Retardo
-                    <span class="badge bg-info"><i class="fas fa-file-text"></i></span> Justificado
-                </small>
+            <div class="mt-4 d-flex gap-3 justify-content-center">
+                <span class="badge bg-success badge-modern"><i class="bi bi-check me-1"></i> Presente</span>
+                <span class="badge bg-danger badge-modern"><i class="bi bi-x me-1"></i> Ausente</span>
+                <span class="badge bg-warning badge-modern"><i class="bi bi-clock me-1"></i> Retardo</span>
+                <span class="badge bg-info badge-modern"><i class="bi bi-file-text me-1"></i> Justificado</span>
             </div>
         </div>
     </div>

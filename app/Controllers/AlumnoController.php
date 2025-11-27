@@ -64,12 +64,18 @@ class AlumnoController extends Controller {
         // Get enrolled subjects
         $asignaciones = $this->asignacionModel->getByAlumno($alumno['id_alumno']);
 
+        // Get academic progress data for chart
+        require_once '../app/Models/Calificacion.php';
+        $calificacionModel = new Calificacion();
+        $promediosPorMateria = $calificacionModel->getPromediosPorMateria($alumno['id_alumno']);
+
         $data = [
             'title' => 'Mi Portal',
             'alumno' => $alumno,
             'stats' => $stats,
             'asignaciones' => $asignaciones,
-            'is_moroso' => $_SESSION['is_moroso'] ?? false
+            'is_moroso' => $_SESSION['is_moroso'] ?? false,
+            'promediosPorMateria' => $promediosPorMateria
         ];
 
         $this->view('layouts/header_alumno', $data);

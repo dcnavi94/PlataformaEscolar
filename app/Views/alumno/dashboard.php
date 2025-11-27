@@ -20,7 +20,7 @@
                 <i class="bi bi-info-circle"></i> No tienes materias asignadas actualmente.
             </div>
         </div>
-    <?php else: ?>
+   <?php else: ?>
         <?php foreach ($asignaciones as $asignacion): ?>
             <div class="col-md-4 mb-4">
                 <div class="card h-100 shadow-sm hover-card">
@@ -55,6 +55,76 @@
         <?php endforeach; ?>
     <?php endif; ?>
 </div>
+
+<!-- Academic Progress Chart -->
+<?php if (!empty($promediosPorMateria)): ?>
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <i class="bi bi-graph-up me-2"></i> Mi Progreso Académico
+            </div>
+            <div class="card-body">
+                <canvas id="progresoChart" style="max-height: 300px;"></canvas>
+                <div class="text-center mt-2">
+                    <small class="text-muted">Mínimo aprobatorio: 70</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Academic Progress Chart
+const progressData = <?= json_encode($promediosPorMateria) ?>;
+const progressLabels = progressData.map(item => item.materia);
+const progressValues = progressData.map(item => parseFloat(item.promedio));
+const progressColors = progressValues.map(val => {
+    if (val >= 70) return '#28a745';  // Green
+    if (val >= 60) return '#FF6600';  // Orange
+    return '#dc3545';  // Red
+});
+
+new Chart(document.getElementById('progresoChart'), {
+    type: 'bar',
+    data: {
+        labels: progressLabels,
+        datasets: [{
+            label: 'Promedio',
+            data: progressValues,
+            backgroundColor: progressColors,
+            borderColor: progressColors,
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return 'Promedio: ' + context.parsed.y.toFixed(2);
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 100,
+                ticks: {
+                    callback: function(value) {
+                        return value;
+                    }
+                }
+            }
+        }
+    }
+});
+</script>
+<?php endif; ?>
 
 <!-- Financial Stats (Secondary) -->
 <div class="row">

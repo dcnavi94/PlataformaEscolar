@@ -6,6 +6,8 @@
     <title><?= $title ?? 'Control de Pagos' ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/circular-menu.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/modern-ui.css">
     <style>
         :root {
             --navy-blue: #003366;
@@ -50,240 +52,599 @@
     </style>
 </head>
 <body>
+    <!-- Circular Modules Overlay -->
+    <div class="modules-overlay" id="modulesOverlay" onclick="toggleModules()">
+        <div class="modules-container p-5" onclick="event.stopPropagation()" style="max-height: 90vh; overflow-y: auto; width: 90%; max-width: 1200px; background: rgba(255,255,255,0.95); border-radius: 20px; box-shadow: 0 0 50px rgba(0,0,0,0.5);">
+            <div class="container-fluid">
+                <div class="row mb-4">
+                    <div class="col-12 text-center">
+                        <h2 class="text-dark fw-bold mb-0">Menú de Módulos</h2>
+                        <p class="text-muted">Acceso rápido a todas las funciones</p>
+                    </div>
+                </div>
+
+                <!-- PAGOS -->
+                <div class="row mb-4">
+                    <div class="col-12"><h5 class="text-primary border-bottom pb-2 mb-3"><i class="bi bi-cash-stack me-2"></i>Pagos</h5></div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/admin/dashboard" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-speedometer2 fs-2 text-primary mb-2"></i>
+                                <h6 class="card-title text-dark small">Dashboard</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/alumnoadmin/index" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-people fs-2 text-success mb-2"></i>
+                                <h6 class="card-title text-dark small">Alumnos</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/grupo/index" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-collection fs-2 text-info mb-2"></i>
+                                <h6 class="card-title text-dark small">Grupos</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/reporte/index" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-file-earmark-bar-graph fs-2 text-warning mb-2"></i>
+                                <h6 class="card-title text-dark small">Reportes</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/programa/index" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-journal-bookmark fs-2 text-danger mb-2"></i>
+                                <h6 class="card-title text-dark small">Programas</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/dashboardejecutivo" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-graph-up-arrow fs-2 text-primary mb-2"></i>
+                                <h6 class="card-title text-dark small">Ejecutivo</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/concepto/index" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-tags fs-2 text-secondary mb-2"></i>
+                                <h6 class="card-title text-dark small">Conceptos</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/periodo/index" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-calendar-range fs-2 text-dark mb-2"></i>
+                                <h6 class="card-title text-dark small">Periodos</h6>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ACADÉMICO -->
+                <div class="row mb-4">
+                    <div class="col-12"><h5 class="text-success border-bottom pb-2 mb-3"><i class="bi bi-mortarboard me-2"></i>Académico</h5></div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/materia" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-book fs-2 text-primary mb-2"></i>
+                                <h6 class="card-title text-dark small">Materias</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/profesor" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-person-video3 fs-2 text-success mb-2"></i>
+                                <h6 class="card-title text-dark small">Profesores</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/asignacion" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-diagram-3 fs-2 text-info mb-2"></i>
+                                <h6 class="card-title text-dark small">Asignaciones</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/horario" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-calendar3 fs-2 text-warning mb-2"></i>
+                                <h6 class="card-title text-dark small">Horarios</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/calendario" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-calendar-date fs-2 text-danger mb-2"></i>
+                                <h6 class="card-title text-dark small">Calendario</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/asistencia" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-check2-all fs-2 text-primary mb-2"></i>
+                                <h6 class="card-title text-dark small">Asistencia</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/bibliotecaadmin" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-book-half fs-2 text-secondary mb-2"></i>
+                                <h6 class="card-title text-dark small">Biblioteca</h6>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- CONTROL ESCOLAR -->
+                <div class="row mb-4">
+                    <div class="col-12"><h5 class="text-warning border-bottom pb-2 mb-3"><i class="bi bi-clipboard-data me-2"></i>Control Escolar</h5></div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/controlescolar/index" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-file-earmark-text fs-2 text-primary mb-2"></i>
+                                <h6 class="card-title text-dark small">Solicitudes</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/inscripcionadmin/index" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-person-plus fs-2 text-success mb-2"></i>
+                                <h6 class="card-title text-dark small">Inscripciones</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/titulacionadmin/index" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-award fs-2 text-warning mb-2"></i>
+                                <h6 class="card-title text-dark small">Titulación</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/titulacionadmin/egresados" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-mortarboard-fill fs-2 text-info mb-2"></i>
+                                <h6 class="card-title text-dark small">Egresados</h6>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- RH -->
+                <div class="row mb-4">
+                    <div class="col-12"><h5 class="text-danger border-bottom pb-2 mb-3"><i class="bi bi-people me-2"></i>Recursos Humanos</h5></div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/nomina" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-cash fs-2 text-success mb-2"></i>
+                                <h6 class="card-title text-dark small">Nómina</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <a href="<?= BASE_URL ?>/nomina/horas" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-clock-history fs-2 text-warning mb-2"></i>
+                                <h6 class="card-title text-dark small">Horas</h6>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- INVENTARIO & OTROS -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h5 class="text-info border-bottom pb-2 mb-3"><i class="bi bi-box-seam me-2"></i>Inventario</h5>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <a href="<?= BASE_URL ?>/inventario" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-tools fs-2 text-primary mb-2"></i>
+                                        <h6 class="card-title text-dark small">Inventario</h6>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <a href="<?= BASE_URL ?>/adminprestamos" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-arrow-left-right fs-2 text-success mb-2"></i>
+                                        <h6 class="card-title text-dark small">Préstamos</h6>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="text-secondary border-bottom pb-2 mb-3"><i class="bi bi-gear me-2"></i>Otros</h5>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <a href="<?= BASE_URL ?>/usuarioadmin/index" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-person-badge fs-2 text-success mb-2"></i>
+                                        <h6 class="card-title text-dark small">Usuarios</h6>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <a href="<?= BASE_URL ?>/configuracion/index" class="card h-100 text-decoration-none hover-card border-0 shadow-sm">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-gear fs-2 text-secondary mb-2"></i>
+                                        <h6 class="card-title text-dark small">Configuración</h6>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <?php if (!isset($hideSidebar) || !$hideSidebar): ?>
-            <nav class="col-md-2 d-md-block sidebar px-0">
-                <div class="position-sticky pt-3">
-                    <div class="text-center text-white mb-4">
-                        <img src="<?= BASE_URL ?>/logoTransp.png" alt="Logo" style="max-width: 120px; height: auto; margin-bottom: 10px;">
-                        <h5>Control de Pagos</h5>
-                        <small><?= $_SESSION['nombre'] ?? '' ?></small><br>
-                        <span class="badge bg-light text-dark mt-2"><?= $_SESSION['rol'] ?? '' ?></span>
-                    </div>
-                    
-                    <ul class="nav flex-column">
-                        <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'ADMIN'): ?>
-                        <!-- MÓDULO DE PAGOS -->
-                        <li class="nav-item">
-                            <a class="nav-link text-white fw-bold d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#moduloPagos" role="button" aria-expanded="true" aria-controls="moduloPagos" style="cursor: pointer;">
-                                <span><i class="bi bi-cash-stack me-2"></i> MÓDULO DE PAGOS</span>
-                                <i class="bi bi-chevron-down"></i>
-                            </a>
-                        </li>
-                        <div class="collapse show" id="moduloPagos">
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'dashboard') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/admin/dashboard">
-                                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'alumnoadmin') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/alumnoadmin/index">
-                                    <i class="bi bi-people me-2"></i> Alumnos
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'grupo') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/grupo/index">
-                                    <i class="bi bi-collection me-2"></i> Grupos
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'pago') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/pago/historial">
-                                    <i class="bi bi-credit-card me-2"></i> Pagos
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'programa') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/programa/index">
-                                    <i class="bi bi-journal-bookmark me-2"></i> Programas
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'dashboardejecutivo') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/dashboardejecutivo">
-                                    <i class="bi bi-graph-up-arrow me-2"></i> Dashboard Ejecutivo
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'concepto') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/concepto/index">
-                                    <i class="bi bi-tags me-2"></i> Conceptos de Pago
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'periodo') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/periodo/index">
-                                    <i class="bi bi-calendar-range me-2"></i> Periodos
-                                </a>
-                            </li>
-                        </div>
 
-                        <!-- MÓDULO ACADÉMICO -->
-                        <li class="nav-item mt-3">
-                            <a class="nav-link text-white fw-bold d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#moduloAcademico" role="button" aria-expanded="true" aria-controls="moduloAcademico" style="cursor: pointer;">
-                                <span><i class="bi bi-mortarboard me-2"></i> MÓDULO ACADÉMICO</span>
-                                <i class="bi bi-chevron-down"></i>
-                            </a>
-                        </li>
-                        <div class="collapse show" id="moduloAcademico">
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'materia') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/materia">
-                                    <i class="bi bi-book me-2"></i> Materias
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'profesor') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/profesor">
-                                    <i class="bi bi-person-video3 me-2"></i> Profesores
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'asignacion') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/asignacion">
-                                    <i class="bi bi-diagram-3 me-2"></i> Asignaciones
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'horario') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/horario">
-                                    <i class="bi bi-calendar3 me-2"></i> Horarios
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'calendario') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/calendario">
-                                    <i class="bi bi-calendar-date me-2"></i> Calendario Escolar
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'asistencia') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/asistencia">
-                                    <i class="bi bi-check2-all me-2"></i> Reportes de Asistencia
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'bibliotecaadmin') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/bibliotecaadmin">
-                                    <i class="bi bi-book-half me-2"></i> Biblioteca Digital
-                                </a>
-                            </li>
-                        </div>
+            
+            <!-- Windows Start Button (Circular Menu Trigger) -->
+            <button id="windowsStartBtn" aria-label="Menú de módulos" aria-expanded="false" title="Menú de módulos" style="position: fixed; bottom: 20px; left: 20px; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white; font-size: 1.8rem; cursor: pointer; z-index: 1500; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: all 0.3s ease;">
+                <i class="bi bi-grid-3x3-gap-fill"></i>
+            </button>
 
-                        <!-- MÓDULO INVENTARIO -->
-                        <li class="nav-item mt-3">
-                            <a class="nav-link text-white fw-bold d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#moduloInventario" role="button" aria-expanded="true" aria-controls="moduloInventario" style="cursor: pointer;">
-                                <span><i class="bi bi-box-seam me-2"></i> MÓDULO INVENTARIO</span>
-                                <i class="bi bi-chevron-down"></i>
-                            </a>
-                        </li>
-                        <div class="collapse show" id="moduloInventario">
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'inventario') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/inventario">
-                                    <i class="bi bi-tools me-2"></i> Materiales
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'adminprestamos') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/adminprestamos">
-                                    <i class="bi bi-arrow-left-right me-2"></i> Préstamos
-                                </a>
-                            </li>
-                        </div>
-
-                        <!-- RECURSOS HUMANOS -->
-                        <li class="nav-item mt-3">
-                            <a class="nav-link text-white fw-bold d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#moduloRH" role="button" aria-expanded="true" aria-controls="moduloRH" style="cursor: pointer;">
-                                <span><i class="bi bi-people-fill me-2"></i> RECURSOS HUMANOS</span>
-                                <i class="bi bi-chevron-down"></i>
-                            </a>
-                        </li>
-                        <div class="collapse show" id="moduloRH">
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'nomina') !== false && strpos($_SERVER['REQUEST_URI'], 'horas') === false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/nomina">
-                                    <i class="bi bi-cash-coin me-2"></i> Gestión de Pagos
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'horas') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/nomina/horas">
-                                    <i class="bi bi-clock-history me-2"></i> Registro de Horas
-                                </a>
-                            </li>
-                        </div>
-
-                        <!-- SERVICIOS -->
-                        <li class="nav-item mt-3">
-                            <a class="nav-link text-white fw-bold d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#moduloServicios" role="button" aria-expanded="true" aria-controls="moduloServicios" style="cursor: pointer;">
-                                <span><i class="bi bi-briefcase me-2"></i> SERVICIOS</span>
-                                <i class="bi bi-chevron-down"></i>
-                            </a>
-                        </li>
-                        <div class="collapse show" id="moduloServicios">
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'titulacionadmin') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/titulacionadmin/index">
-                                    <i class="bi bi-mortarboard-fill me-2"></i> Titulación
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'inscripcionadmin') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/inscripcionadmin">
-                                    <i class="bi bi-person-plus-fill me-2"></i> Inscripciones
-                                </a>
-                            </li>
-                        </div>
-                        
-                        <!-- OTRO -->
-                        <li class="nav-item mt-3">
-                            <a class="nav-link text-white fw-bold d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#moduloOtro" role="button" aria-expanded="true" aria-controls="moduloOtro" style="cursor: pointer;">
-                                <span><i class="bi bi-gear-fill me-2"></i> OTRO</span>
-                                <i class="bi bi-chevron-down"></i>
-                            </a>
-                        </li>
-                        <div class="collapse show" id="moduloOtro">
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'controlescolar') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/controlescolar/index">
-                                    <i class="bi bi-clipboard-data me-2"></i> Control Escolar
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'usuarioadmin') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/usuarioadmin/index">
-                                    <i class="bi bi-person-badge me-2"></i> Usuarios
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <?= (strpos($_SERVER['REQUEST_URI'], 'configuracion') !== false) ? 'active' : '' ?>" href="<?= BASE_URL ?>/configuracion/index">
-                                    <i class="bi bi-gear me-2"></i> Configuración
-                                </a>
-                            </li>
-                        </div>
-                        <?php endif; ?>
-
-                        <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'PROFESOR'): ?>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="<?= BASE_URL ?>/profesor/dashboard">
-                                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
-                                </a>
-                            </li>
-                        <?php endif; ?>
-                        
-                        <li class="nav-item mt-4">
-                            <a class="nav-link text-danger" href="<?= BASE_URL ?>/auth/logout">
-                                <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            <?php endif; ?>
 
             <!-- Main Content -->
-            <main class="<?= (isset($hideSidebar) && $hideSidebar) ? 'col-12' : 'col-md-10 ms-sm-auto' ?> px-md-4">
-                <!-- Navbar -->
-                <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mb-4">
+            <main class="<?= (isset($hideSidebar) && $hideSidebar) ? 'col-12' : 'col-12' ?> px-md-4">
+                <!-- Top Navbar with Mega Menu -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mb-4 shadow-sm">
                     <div class="container-fluid">
-                        <span class="navbar-brand mb-0 h1"><?= $title ?? 'Dashboard' ?></span>
-                        <div class="d-flex align-items-center">
-                            <span class="text-muted me-3">
-                                <i class="bi bi-person-circle"></i> <?= $_SESSION['nombre'] ?? 'Usuario' ?>
-                            </span>
-                            <button class="btn btn-link notification-badge position-relative" disabled>
-                                <i class="bi bi-bell fs-5 text-muted"></i>
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
-                                    0
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar" aria-controls="topNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        
+                        <div class="collapse navbar-collapse" id="topNavbar">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <!-- Módulo de Pagos Dropdown -->
+                                <li class="nav-item dropdown position-static">
+                                    <a class="nav-link dropdown-toggle fw-bold text-primary" href="#" id="pagosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-cash-stack me-1"></i> PAGOS
+                                    </a>
+                                    <div class="dropdown-menu w-100 mt-0 border-0 shadow-lg p-3" aria-labelledby="pagosDropdown" style="border-top: 3px solid var(--navy-blue) !important;">
+                                        <div class="container">
+                                            <div class="row g-3">
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/admin/dashboard" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-speedometer2 fs-1 text-primary mb-2"></i>
+                                                            <h6 class="card-title text-dark">Dashboard</h6>
+                                                            <small class="text-muted">Resumen general</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/alumnoadmin/index" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-people fs-1 text-success mb-2"></i>
+                                                            <h6 class="card-title text-dark">Alumnos</h6>
+                                                            <small class="text-muted">Gestión de estudiantes</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/grupo/index" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-collection fs-1 text-info mb-2"></i>
+                                                            <h6 class="card-title text-dark">Grupos</h6>
+                                                            <small class="text-muted">Administración de grupos</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/reporte/index" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-file-earmark-bar-graph fs-1 text-warning mb-2"></i>
+                                                            <h6 class="card-title text-dark">Reportes</h6>
+                                                            <small class="text-muted">Informes financieros</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/programa/index" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-journal-bookmark fs-1 text-danger mb-2"></i>
+                                                            <h6 class="card-title text-dark">Programas</h6>
+                                                            <small class="text-muted">Planes de estudio</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/dashboardejecutivo" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-graph-up-arrow fs-1 text-primary mb-2"></i>
+                                                            <h6 class="card-title text-dark">Ejecutivo</h6>
+                                                            <small class="text-muted">Métricas clave</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/concepto/index" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-tags fs-1 text-secondary mb-2"></i>
+                                                            <h6 class="card-title text-dark">Conceptos</h6>
+                                                            <small class="text-muted">Catálogo de cobros</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/periodo/index" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-calendar-range fs-1 text-dark mb-2"></i>
+                                                            <h6 class="card-title text-dark">Periodos</h6>
+                                                            <small class="text-muted">Ciclos escolares</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <!-- Módulo Académico Dropdown -->
+                                <li class="nav-item dropdown position-static">
+                                    <a class="nav-link dropdown-toggle fw-bold text-success" href="#" id="academicoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-mortarboard me-1"></i> ACADÉMICO
+                                    </a>
+                                    <div class="dropdown-menu w-100 mt-0 border-0 shadow-lg p-3" aria-labelledby="academicoDropdown" style="border-top: 3px solid #198754 !important;">
+                                        <div class="container">
+                                            <div class="row g-3">
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/materia" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-book fs-1 text-primary mb-2"></i>
+                                                            <h6 class="card-title text-dark">Materias</h6>
+                                                            <small class="text-muted">Gestión de asignaturas</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/asignacion" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-diagram-3 fs-1 text-info mb-2"></i>
+                                                            <h6 class="card-title text-dark">Asignaciones</h6>
+                                                            <small class="text-muted">Carga académica</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/horario" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-calendar3 fs-1 text-warning mb-2"></i>
+                                                            <h6 class="card-title text-dark">Horarios</h6>
+                                                            <small class="text-muted">Gestión de horarios</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/calendario" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-calendar-date fs-1 text-danger mb-2"></i>
+                                                            <h6 class="card-title text-dark">Calendario</h6>
+                                                            <small class="text-muted">Eventos escolares</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/asistencia" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-check2-all fs-1 text-primary mb-2"></i>
+                                                            <h6 class="card-title text-dark">Asistencia</h6>
+                                                            <small class="text-muted">Control de asistencia</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/bibliotecaadmin" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-book-half fs-1 text-secondary mb-2"></i>
+                                                            <h6 class="card-title text-dark">Biblioteca</h6>
+                                                            <small class="text-muted">Recursos bibliográficos</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <!-- Módulo Control Escolar Dropdown -->
+                                <li class="nav-item dropdown position-static">
+                                    <a class="nav-link dropdown-toggle fw-bold text-warning" href="#" id="controlDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-clipboard-data me-1"></i> CONTROL ESCOLAR
+                                    </a>
+                                    <div class="dropdown-menu w-100 mt-0 border-0 shadow-lg p-3" aria-labelledby="controlDropdown" style="border-top: 3px solid #ffc107 !important;">
+                                        <div class="container">
+                                            <div class="row g-3">
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/controlescolar/index" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-file-earmark-text fs-1 text-primary mb-2"></i>
+                                                            <h6 class="card-title text-dark">Solicitudes</h6>
+                                                            <small class="text-muted">Trámites y servicios</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/inscripcionadmin/index" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-person-plus fs-1 text-success mb-2"></i>
+                                                            <h6 class="card-title text-dark">Inscripciones</h6>
+                                                            <small class="text-muted">Nuevos ingresos</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/titulacionadmin/index" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-award fs-1 text-warning mb-2"></i>
+                                                            <h6 class="card-title text-dark">Titulación</h6>
+                                                            <small class="text-muted">Procesos de grado</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/titulacionadmin/egresados" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-mortarboard-fill fs-1 text-info mb-2"></i>
+                                                            <h6 class="card-title text-dark">Egresados</h6>
+                                                            <small class="text-muted">Base de datos egresados</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <!-- Módulo Recursos Humanos Dropdown -->
+                                <li class="nav-item dropdown position-static">
+                                    <a class="nav-link dropdown-toggle fw-bold text-danger" href="#" id="rhDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-people me-1"></i> RH
+                                    </a>
+                                    <div class="dropdown-menu w-100 mt-0 border-0 shadow-lg p-3" aria-labelledby="rhDropdown" style="border-top: 3px solid #dc3545 !important;">
+                                        <div class="container">
+                                            <div class="row g-3">
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/profesor" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-person-badge fs-1 text-primary mb-2"></i>
+                                                            <h6 class="card-title text-dark">Profesores</h6>
+                                                            <small class="text-muted">Gestión de personal</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/nomina" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-cash fs-1 text-success mb-2"></i>
+                                                            <h6 class="card-title text-dark">Nómina</h6>
+                                                            <small class="text-muted">Pagos a personal</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/nomina/horas" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-clock-history fs-1 text-warning mb-2"></i>
+                                                            <h6 class="card-title text-dark">Horas</h6>
+                                                            <small class="text-muted">Registro de horas</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <!-- Módulo Inventario Dropdown -->
+                                <li class="nav-item dropdown position-static">
+                                    <a class="nav-link dropdown-toggle fw-bold text-info" href="#" id="inventarioDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-box-seam me-1"></i> INVENTARIO
+                                    </a>
+                                    <div class="dropdown-menu w-100 mt-0 border-0 shadow-lg p-3" aria-labelledby="inventarioDropdown" style="border-top: 3px solid #0dcaf0 !important;">
+                                        <div class="container">
+                                            <div class="row g-3">
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/inventario" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-tools fs-1 text-primary mb-2"></i>
+                                                            <h6 class="card-title text-dark">Inventario</h6>
+                                                            <small class="text-muted">Gestión de activos</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/adminprestamos" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-arrow-left-right fs-1 text-success mb-2"></i>
+                                                            <h6 class="card-title text-dark">Préstamos</h6>
+                                                            <small class="text-muted">Control de préstamos</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <!-- Módulo OTROS Dropdown -->
+                                <li class="nav-item dropdown position-static">
+                                    <a class="nav-link dropdown-toggle fw-bold text-secondary" href="#" id="otrosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-gear me-1"></i> OTROS
+                                    </a>
+                                    <div class="dropdown-menu w-100 mt-0 border-0 shadow-lg p-3" aria-labelledby="otrosDropdown" style="border-top: 3px solid #6c757d !important;">
+                                        <div class="container">
+                                            <div class="row g-3">
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/usuarioadmin/index" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-person-badge fs-1 text-success mb-2"></i>
+                                                            <h6 class="card-title text-dark">Usuarios</h6>
+                                                            <small class="text-muted">Gestión de usuarios</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="<?= BASE_URL ?>/configuracion/index" class="card h-100 text-decoration-none hover-card">
+                                                        <div class="card-body text-center">
+                                                            <i class="bi bi-gear fs-1 text-secondary mb-2"></i>
+                                                            <h6 class="card-title text-dark">Configuración</h6>
+                                                            <small class="text-muted">Ajustes del sistema</small>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            
+                            <!-- User Profile & Notifications -->
+                            <div class="d-flex align-items-center ms-auto">
+                                <span class="text-muted me-3 d-none d-lg-block">
+                                    <i class="bi bi-person-circle"></i> <?= $_SESSION['nombre'] ?? 'Usuario' ?>
                                 </span>
-                            </button>
+                                <button class="btn btn-link notification-badge position-relative text-secondary" disabled>
+                                    <i class="bi bi-bell fs-5"></i>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                                        0
+                                    </span>
+                                </button>
+                                <a href="<?= BASE_URL ?>/auth/logout" class="btn btn-outline-danger btn-sm ms-3">
+                                    <i class="bi bi-box-arrow-right"></i> Salir
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </nav>
-
+                
                 <!-- Flash Messages -->
                 <?php if (isset($_SESSION['error'])): ?>
                     <div class="alert alert-danger alert-dismissible fade show">

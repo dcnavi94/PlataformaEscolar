@@ -1,63 +1,74 @@
 <?php require_once '../app/Views/layouts/header.php'; ?>
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Gestión de Materias</h2>
-    <a href="<?= BASE_URL ?>/materia/create" class="btn btn-primary">
-        <i class="bi bi-plus-circle"></i> Nueva Materia
-    </a>
-</div>
+<div class="container-fluid animate-fade-in">
+    <div class="page-header-modern">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">Gestión de Materias</h1>
+            <p class="text-muted mb-0">Catálogo de asignaturas académicas</p>
+        </div>
+        <a href="<?= BASE_URL ?>/materia/create" class="btn btn-modern btn-modern-primary">
+            <i class="bi bi-plus-circle"></i> Nueva Materia
+        </a>
+    </div>
 
-<div class="card">
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Código</th>
-                        <th>Nombre</th>
-                        <th>Programa</th>
-                        <th>Créditos</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($materias)): ?>
+    <div class="card-modern">
+        <div class="card-header-modern">
+            <h6 class="m-0 text-white"><i class="bi bi-book me-2"></i>Listado de Materias</h6>
+        </div>
+        <div class="card-body p-4">
+            <div class="table-responsive table-modern-container">
+                <table class="table table-modern" id="dataTable">
+                    <thead>
                         <tr>
-                            <td colspan="7" class="text-center text-muted">No hay materias registradas</td>
+                            <th>ID</th>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Programa</th>
+                            <th class="text-center">Créditos</th>
+                            <th class="text-center">Estado</th>
+                            <th class="text-center">Acciones</th>
                         </tr>
-                    <?php else: ?>
-                        <?php foreach ($materias as $m): ?>
+                    </thead>
+                    <tbody>
+                        <?php if (empty($materias)): ?>
                             <tr>
-                                <td><?= $m['id_materia'] ?></td>
-                                <td><strong><?= htmlspecialchars($m['codigo']) ?></strong></td>
-                                <td><?= htmlspecialchars($m['nombre']) ?></td>
-                                <td><?= htmlspecialchars($m['programa_nombre'] ?? 'N/A') ?></td>
-                                <td><?= $m['creditos'] ?></td>
-                                <td>
-                                    <?php
-                                    $badgeClass = $m['estado'] === 'ACTIVO' ? 'success' : 'secondary';
-                                    ?>
-                                    <span class="badge bg-<?= $badgeClass ?>"><?= $m['estado'] ?></span>
-                                </td>
-                                <td>
-                                    <a href="<?= BASE_URL ?>/materia/edit/<?= $m['id_materia'] ?>" 
-                                       class="btn btn-sm btn-warning" title="Editar">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <a href="<?= BASE_URL ?>/materia/delete/<?= $m['id_materia'] ?>" 
-                                       class="btn btn-sm btn-danger" 
-                                       onclick="return confirm('¿Está seguro de eliminar esta materia?')"
-                                       title="Eliminar">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
+                                <td colspan="7" class="text-center text-muted py-5">
+                                    <i class="bi bi-book fs-1 d-block mb-3"></i>
+                                    No hay materias registradas
                                 </td>
                             </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+                        <?php else: ?>
+                            <?php foreach ($materias as $m): ?>
+                                <tr>
+                                    <td class="fw-bold text-secondary">#<?= $m['id_materia'] ?></td>
+                                    <td><span class="badge bg-light text-dark border"><?= htmlspecialchars($m['codigo']) ?></span></td>
+                                    <td><strong><?= htmlspecialchars($m['nombre']) ?></strong></td>
+                                    <td><?= htmlspecialchars($m['programa_nombre'] ?? 'N/A') ?></td>
+                                    <td class="text-center"><?= $m['creditos'] ?></td>
+                                    <td class="text-center">
+                                        <?php
+                                        $badgeClass = $m['estado'] === 'ACTIVO' ? 'success' : 'secondary';
+                                        ?>
+                                        <span class="badge bg-<?= $badgeClass ?> badge-modern"><?= $m['estado'] ?></span>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="<?= BASE_URL ?>/materia/edit/<?= $m['id_materia'] ?>" 
+                                           class="btn btn-sm btn-outline-warning rounded-circle me-1" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a href="<?= BASE_URL ?>/materia/delete/<?= $m['id_materia'] ?>" 
+                                           class="btn btn-sm btn-outline-danger rounded-circle" 
+                                           onclick="return confirm('¿Está seguro de eliminar esta materia?')"
+                                           title="Eliminar">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
